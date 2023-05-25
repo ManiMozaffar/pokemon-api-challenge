@@ -2,7 +2,7 @@ output/*
 !output/.gitkeep
 
 database.db
-
+result.json
 
 
 # Byte-compiled / optimized / DLL files

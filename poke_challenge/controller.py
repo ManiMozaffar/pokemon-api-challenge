@@ -1,9 +1,12 @@
+from typing import List
+
 from poke_challenge.abstract import ControllerABC
 from poke_challenge.repository import (
     DatabaseHandler,
     APIHandler,
     JsonFileHandler
 )
+from poke_challenge.schema import PokemonTypeCounter
 
 
 class PokemonController(ControllerABC):
@@ -29,7 +32,7 @@ class PokemonController(ControllerABC):
             print(item)
         return None
 
-    async def query_for_count(self):
+    async def query_for_count(self) -> List[PokemonTypeCounter]:
         self.results = await self.database_handler.query_counter()
         return self.results
 
@@ -42,3 +45,4 @@ class PokemonController(ControllerABC):
 
     async def exit(self) -> None:
         await self.database_handler.close()
+        return None

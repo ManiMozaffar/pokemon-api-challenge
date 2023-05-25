@@ -54,7 +54,7 @@ class APIHandler(APIHandlerABC):
 class DatabaseHandler(DatabaseHandlerABC):
     _db_path: str = "./database.db"
 
-    async def tortoise_up(self):
+    async def tortoise_up(self) -> None:
         TORTOISE_ORM = {
             "connections": {
                 "default": {
@@ -73,6 +73,7 @@ class DatabaseHandler(DatabaseHandlerABC):
         }
         await Tortoise.init(config=TORTOISE_ORM)
         await Tortoise.generate_schemas()
+        return None
 
     async def store_result(self, result: List[PokemonTypes]) -> None:
         await PokemonModel.bulk_create(
@@ -80,7 +81,7 @@ class DatabaseHandler(DatabaseHandlerABC):
         )
         return None
 
-    async def all_pokemons(self) -> int:
+    async def all_pokemons(self) -> List[PokemonTypes.dict]:
         return await PokemonModel.all().values_list(
             "pokemon_name", "pokemon_type"
         )
@@ -93,9 +94,11 @@ class DatabaseHandler(DatabaseHandlerABC):
         """)
         conn.close()
         await self.tortoise_up()
+        return None
 
-    async def close(self):
+    async def close(self) -> None:
         await Tortoise.close_connections()
+        return None
 
     async def query_counter(self) -> List[PokemonTypeCounter]:
         result = await PokemonModel.all().annotate(
