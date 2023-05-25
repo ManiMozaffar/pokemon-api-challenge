@@ -56,3 +56,9 @@ class ControllerABC(ABC):
     async def save_results_json(self) -> None: ...
     @abstractmethod
     async def exit(self) -> None: ...
+
+
+class PokemonViewABC(ABC):
+
+    @abstractmethod
+    async def execute(self) -> None: ...
