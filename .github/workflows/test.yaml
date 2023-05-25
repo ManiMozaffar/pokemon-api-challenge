@@ -1,0 +1,41 @@
+name: Run Tests
+
+on:
+  pull_request_review:
+    types: [submitted]
+    branches:
+      - main
+
+  push:
+    branches:
+      - main
+
+jobs:
+  run-tests:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.review.state == 'approved')
+    runs-on: ubuntu-latest
+
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root
+
+      - name: Start test
+        run: make test

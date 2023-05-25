@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "base"
+version = "0.1.0"
+description = ""
+authors = ["Mani <mani.mozaffar@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^1.10.8"
+httpx = "^0.24.1"
+tortoise-orm = "^0.19.3"
+pytest-asyncio = "^0.21.0"
+pytest = "^7.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
